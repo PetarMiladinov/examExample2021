@@ -27,8 +27,11 @@ public class ProductsController {
 
 
     @GetMapping({"/", "/products"})
-    public String showProducts(String nameSearch, Long categoryId, Model model) {
+    public String showProducts(@RequestParam(required = false) String nameSearch,
+                               @RequestParam(required = false) Long categoryId,
+                               Model model) {
         List<Product> products;
+        List<Category> categories = this.categoryService.listAll();
         if (nameSearch == null && categoryId == null) {
             products = this.service.listAllProducts();
         } else {
@@ -36,6 +39,7 @@ public class ProductsController {
         }
 
         model.addAttribute("products", products);
+        model.addAttribute("categories", categories);
         return "list.html";
     }
 
