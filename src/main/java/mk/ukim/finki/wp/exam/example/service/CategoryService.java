@@ -10,6 +10,12 @@ import java.util.Optional;
  */
 public interface CategoryService {
 
+    /**
+     *
+     * @param id
+     * @return
+     * @throws mk.ukim.finki.wp.exam.example.model.exceptions.InvalidCategoryIdException when there is no Category with the given ID
+     */
     Category findById(Long id);
 
     List<Category> listAll();

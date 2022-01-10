@@ -8,6 +8,14 @@ import javax.persistence.Id;
 @Entity
 public class Category {
 
+    public Category(){
+
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue
     private Long id;
