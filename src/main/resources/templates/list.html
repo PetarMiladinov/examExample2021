@@ -21,7 +21,7 @@
     </form>
     <div>
         <!-- ProductsController.showAdd -->
-        <a href="" class="add-item">
+        <a href="/products/add" class="add-item">
             Add new product
         </a>
     </div>
@@ -35,24 +35,24 @@
             <th>Actions</th>
         </tr>
         <!-- For each product you should have one <tr> like below -->
-        <tr class="item">
-            <td>[prod.name]</td>
-            <td>[prod.price]</td>
-            <td>[prod.quantity]</td>
+        <tr class="item" th:each="prod: ${products}">
+            <td th:text="${prod.name}">[prod.name]</td>
+            <td th:text="${prod.price}">[prod.price]</td>
+            <td th:text="${prod.quantity}">[prod.quantity]</td>
             <td>
                 <ul>
                     <!-- For each product's category you should display one <li> element like the one below -->
-                    <li>[cat.name]</li>
+                    <li th:each="cat : ${prod.categories}" th:text="${cat.name}">[cat.name]</li>
                 </ul>
             </td>
-            <td>[prod.creator]</td>
+            <td th:text="${prod.creator?.username}">[prod.creator]</td>
             <td>
                 <!-- ProductsController.delete -->
-                <form>
+                <form method="post" th:action="@{'/products/{id}/delete' (id=${prod.id})}">
                     <button type="submit" class="delete-item">Delete</button>
                 </form>
                 <!-- ProductsController.showEdit -->
-                <a href="" class="edit-item">Edit</a>
+                <a th:href="@{'/products/{id}/edit' (id=${prod.id})}" class="edit-item">Edit</a>
             </td>
         </tr>
     </table>

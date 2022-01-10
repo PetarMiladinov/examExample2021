@@ -1,9 +1,9 @@
 package mk.ukim.finki.wp.exam.example.web;
 
+import mk.ukim.finki.wp.exam.example.model.Category;
 import mk.ukim.finki.wp.exam.example.model.Product;
-import mk.ukim.finki.wp.exam.example.model.User;
+import mk.ukim.finki.wp.exam.example.service.CategoryService;
 import mk.ukim.finki.wp.exam.example.service.ProductService;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +17,12 @@ import java.util.List;
 public class ProductsController {
 
     private final ProductService service;
+    private final CategoryService categoryService;
 
-    public ProductsController(ProductService service) {
+
+    public ProductsController(ProductService service, CategoryService categoryService) {
         this.service = service;
+        this.categoryService = categoryService;
     }
 
 
@@ -37,7 +40,10 @@ public class ProductsController {
     }
 
     @GetMapping("/products/add")
-    public String showAdd() {
+    public String showAdd(Model model) {
+        List<Category> categories = this.categoryService.listAll();
+        model.addAttribute("categories", categories);
+
 
         return "form.html";
     }
@@ -46,6 +52,9 @@ public class ProductsController {
     public String showEdit(@PathVariable Long id,
                            Model model) {
         Product product = this.service.findById(id);
+        List<Category> categories = this.categoryService.listAll();
+
+        model.addAttribute("categories", categories);
         model.addAttribute("product", product);
         return "form.html";
     }
